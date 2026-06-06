@@ -1,0 +1,79 @@
+{% extends 'social/base.html' %}
+
+{% block content %}
+
+<section class="auth-split-page">
+
+    <div class="auth-split-card">
+
+        <div class="auth-brand-panel">
+            <h1>Join FriendZone</h1>
+            <p>Create your account and start sharing your moments.</p>
+            <i class="bi bi-person-plus-fill auth-big-icon"></i>
+        </div>
+
+        <div class="auth-form-panel">
+
+            <h2>Create Account</h2>
+            <p class="text-muted">Start connecting with friends today.</p>
+
+            <form method="POST" novalidate>
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Username <span>*</span></label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <small class="error-text">{{ form.username.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Email <span>*</span></label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <small class="error-text">{{ form.email.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Password <span>*</span></label>
+                    <div class="password-box">
+                        {{ form.password1 }}
+                        <button type="button" class="toggle-password">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                    {% if form.password1.errors %}
+                        <small class="error-text">{{ form.password1.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Confirm Password <span>*</span></label>
+                    <div class="password-box">
+                        {{ form.password2 }}
+                        <button type="button" class="toggle-password">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                    {% if form.password2.errors %}
+                        <small class="error-text">{{ form.password2.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="auth-btn">Register</button>
+            </form>
+
+            <p class="auth-link-text">
+                Already have an account?
+                <a href="{% url 'login' %}">Login</a>
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'social/base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <h3 class="mb-4">
+
+        Followers of {{ profile_user.username }}
+
+    </h3>
+
+    {% for follow in followers %}
+
+        <div class="feed-card p-3 mb-3">
+
+            <a href="{% url 'profile' follow.follower.username %}"
+               class="text-decoration-none">
+
+                {{ follow.follower.username }}
+
+            </a>
+
+        </div>
+
+    {% empty %}
+
+        <div class="alert alert-info">
+
+            No followers yet.
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

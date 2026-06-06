@@ -1,0 +1,100 @@
+{% extends 'social/base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-7">
+
+        <div class="feed-card p-4 mb-4">
+
+            <h3 class="fw-bold mb-3">
+                Search Users
+            </h3>
+
+            <form method="GET">
+
+                <div class="input-group">
+
+                    <input type="text"
+                           name="q"
+                           value="{{ query|default:'' }}"
+                           class="form-control rounded-start-pill"
+                           placeholder="Search by username...">
+
+                    <button type="submit"
+                            class="btn btn-primary rounded-end-pill">
+
+                        <i class="bi bi-search"></i>
+                        Search
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        {% if query %}
+
+            {% for user_obj in users %}
+
+                <div class="feed-card p-3 mb-3">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div class="d-flex align-items-center">
+
+                            {% if user_obj.profile.profile_photo %}
+
+                                <img src="{{ user_obj.profile.profile_photo.url }}"
+                                     class="post-author-img me-3">
+
+                            {% else %}
+
+                                <img src="{{ user_obj.profile.profile_picture }}"
+                                     class="post-author-img me-3">
+
+                            {% endif %}
+
+                            <div>
+
+                                <h5 class="mb-0">
+                                    {{ user_obj.username }}
+                                </h5>
+
+                                <small class="text-muted">
+                                    {{ user_obj.profile.bio|truncatewords:8 }}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <a href="{% url 'profile' user_obj.username %}"
+                           class="btn btn-outline-primary rounded-pill">
+
+                            View Profile
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                <div class="alert alert-info">
+                    No users found.
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

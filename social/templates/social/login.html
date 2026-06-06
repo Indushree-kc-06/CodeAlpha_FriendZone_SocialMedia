@@ -1,0 +1,62 @@
+{% extends 'social/base.html' %}
+
+{% block content %}
+
+<section class="auth-split-page">
+
+    <div class="auth-split-card">
+
+        <div class="auth-brand-panel">
+            <h1>FriendZone</h1>
+            <p>Connect with friends, share memories, and stay close.</p>
+            <i class="bi bi-people-fill auth-big-icon"></i>
+        </div>
+
+        <div class="auth-form-panel">
+
+            <h2>Welcome Back</h2>
+            <p class="text-muted">Login to continue to FriendZone.</p>
+
+            <form method="POST" novalidate>
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Username <span>*</span></label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <small class="error-text">{{ form.username.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Password <span>*</span></label>
+                    <div class="password-box">
+                        {{ form.password }}
+                        <button type="button" class="toggle-password">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                    {% if form.password.errors %}
+                        <small class="error-text">{{ form.password.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                {% if form.non_field_errors %}
+                    <div class="form-alert">{{ form.non_field_errors.0 }}</div>
+                {% endif %}
+
+                <button type="submit" class="auth-btn">Login</button>
+            </form>
+
+            <p class="auth-link-text">
+                New to FriendZone?
+                <a href="{% url 'register' %}">Create account</a>
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

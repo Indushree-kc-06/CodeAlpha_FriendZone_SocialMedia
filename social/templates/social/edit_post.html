@@ -1,0 +1,70 @@
+{% extends 'social/base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-7">
+
+        <div class="feed-card p-4">
+
+            <h3 class="fw-bold mb-2">
+                Edit Post
+            </h3>
+
+            <p class="text-muted mb-4">
+                Update your caption or image.
+            </p>
+
+            <form method="POST"
+                  enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-bold">
+                        Caption
+                    </label>
+
+                    {{ form.content }}
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-bold">
+                        Upload New Image
+                    </label>
+
+                    {{ form.post_image }}
+
+                </div>
+
+                <img id="postImagePreview"
+                     class="post-preview-img mb-3"
+                     style="display:none;">
+
+                <button type="submit"
+                        class="btn btn-primary rounded-pill">
+
+                    Update Post
+
+                </button>
+
+                <a href="{% url 'feed' %}"
+                   class="btn btn-secondary rounded-pill">
+
+                    Cancel
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,231 @@
+{% extends 'social/base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-7">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <h2 class="feed-title">
+                FriendZone Feed
+            </h2>
+
+            {% if user.is_authenticated %}
+
+                <a href="{% url 'create_post' %}"
+                   class="btn btn-primary rounded-pill">
+
+                    <i class="bi bi-plus-circle"></i>
+                    Create Post
+
+                </a>
+
+            {% endif %}
+
+        </div>
+
+        {% for post in posts %}
+
+            <div class="feed-card instagram-card mb-4">
+
+                <div class="post-header">
+
+                    <div class="d-flex align-items-center">
+
+                        {% if post.author.profile.profile_photo %}
+
+                            <img src="{{ post.author.profile.profile_photo.url }}"
+                                 class="post-author-img me-2">
+
+                        {% else %}
+
+                            <img src="{{ post.author.profile.profile_picture }}"
+                                 class="post-author-img me-2">
+
+                        {% endif %}
+
+                        <div>
+
+                            <a href="{% url 'profile' post.author.username %}"
+                               class="post-username">
+
+                                {{ post.author.username }}
+
+                            </a>
+
+                            <span class="text-muted">
+                                • {{ post.created_at|timesince }} ago
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% if post.post_image %}
+
+                    <img src="{{ post.post_image.url }}"
+                         class="instagram-post-image open-image">
+
+                {% endif %}
+
+                <div class="instagram-actions">
+
+                    <div class="left-actions">
+
+                        <button type="button"
+                            class="insta-action ajax-like-btn {% if post.id in liked_post_ids %}liked{% endif %}"
+                            data-url="{% url 'like_post' post.id %}">
+
+                            {% if post.id in liked_post_ids %}
+                                <i class="bi bi-heart-fill"></i>
+                            {% else %}
+                                <i class="bi bi-heart"></i>
+                            {% endif %}
+
+                            <span class="like-count">
+                                {{ post.likes.count }}
+                            </span>
+
+                        </button>
+
+                        <button type="button"
+                                class="insta-action comment-toggle"
+                                data-target="comments-{{ post.id }}">
+
+                            <i class="bi bi-chat"></i>
+                            <span>{{ post.comments.count }}</span>
+
+                        </button>
+
+                        <button type="button"
+                                class="insta-action share-btn">
+
+                            <i class="bi bi-send"></i>
+                            <span>45</span>
+
+                        </button>
+
+                    </div>
+
+                    <button type="button"
+                            class="insta-action save-btn">
+
+                        <i class="bi bi-bookmark"></i>
+
+                    </button>
+
+                </div>
+
+                <div class="post-body">
+
+                    <p class="post-caption">
+
+                        <a href="{% url 'profile' post.author.username %}"
+                           class="caption-username">
+
+                            {{ post.author.username }}
+
+                        </a>
+
+                        {{ post.content }}
+
+                    </p>
+
+                    <div class="comments-section d-none"
+                         id="comments-{{ post.id }}">
+
+                        {% if user.is_authenticated %}
+
+                            <form method="POST"
+                                  action="{% url 'add_comment' post.id %}">
+
+                                {% csrf_token %}
+
+                                <div class="comment-input-wrap">
+
+                                    <input type="text"
+                                           name="text"
+                                           class="comment-input"
+                                           placeholder="Add a comment...">
+
+                                    <button type="submit"
+                                            class="comment-post-btn">
+
+                                        Post
+
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        {% endif %}
+
+                        <div class="comments-list">
+
+                            {% for comment in post.comments.all %}
+
+                                <div class="single-comment">
+
+                                    <div>
+
+                                        <a href="{% url 'profile' comment.user.username %}"
+                                           class="comment-user">
+
+                                            {{ comment.user.username }}
+
+                                        </a>
+
+                                        <span>
+                                            {{ comment.text }}
+                                        </span>
+
+                                    </div>
+
+                                    {% if user == comment.user %}
+
+                                        <a href="{% url 'delete_comment' comment.id %}"
+                                           class="comment-delete confirm-action"
+                                           data-message="Are you sure you want to delete this comment?">
+
+                                            Delete
+
+                                        </a>
+
+                                    {% endif %}
+
+                                </div>
+
+                            {% empty %}
+
+                                <small class="text-muted">
+                                    No comments yet.
+                                </small>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% empty %}
+
+            <div class="alert alert-info text-center">
+                No posts from other users yet. Search and follow friends or ask another user to create posts.
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'social/base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-8">
+
+        <div class="feed-card p-4">
+
+            <h3 class="fw-bold mb-2">
+                Edit Profile
+            </h3>
+
+            <p class="text-muted mb-4">
+                Update your profile details and profile photo.
+            </p>
+
+            <form method="POST"
+                  enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-bold">
+                        Bio
+                    </label>
+
+                    {{ form.bio }}
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-bold">
+                        Location
+                    </label>
+
+                    {{ form.location }}
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-bold">
+                        Profile Photo
+                    </label>
+
+                    {{ form.profile_photo }}
+
+                </div>
+
+                <div class="crop-box mt-3 mb-3">
+
+                    <label class="form-label fw-bold">
+                        Crop Profile Photo
+                    </label>
+
+                    <img id="cropPreview"
+                         class="crop-preview-img"
+                         style="display:none;">
+
+                    <input type="hidden"
+                           name="cropped_image"
+                           id="croppedImage">
+
+                </div>
+
+                <button type="submit"
+                        class="btn btn-primary rounded-pill">
+
+                    Save Changes
+
+                </button>
+
+                <a href="{% url 'profile' user.username %}"
+                   class="btn btn-secondary rounded-pill">
+
+                    Cancel
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
