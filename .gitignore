@@ -1,0 +1,25 @@
+# Virtual Environment
+sma/
+venv/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Database
+db.sqlite3
+
+# Uploaded Images
+media/
+
+# Environment Variables
+.env
+
+# VS Code
+.vscode/
+
+# Windows
+Thumbs.db
+
+# Mac
+.DS_Store
